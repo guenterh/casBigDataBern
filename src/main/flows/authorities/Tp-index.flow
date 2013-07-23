@@ -6,7 +6,7 @@ wiki-dump|
 open-file|
 decode-xml|
 handle-wiki-xml|
-analyze-wiki-authorities|
+analyze-wiki(FLUX_DIR + "wiki.conf")|
 morph(FLUX_DIR + "dewiki-redirect.xml")|
 stream-to-triples(redirect="true")|
 @X;

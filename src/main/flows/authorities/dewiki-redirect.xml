@@ -7,9 +7,11 @@
 	<rules>
 		<data source="gnd" name="_id"/>
 		<data source="_id" name="wikipedia"/>
+		
+		<data source="ref" name="cg:dewp_cat">
+			<regexp match="^Kategorie:(.*)" format="${1}" />
+		</data>
 		<data source="_else"/>
-
-
 
 	</rules>
 </metamorph>
