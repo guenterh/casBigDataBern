@@ -46,11 +46,11 @@ subjc [label="job_countInHTable.sh subjReferences.xml"]
 
 
 node [shape=box, style=filled, fillcolor=lightskyblue, fontsize=10];  
-ixr [label="index-records.flux"]
-ixm [label="index-bundles.flux"]
-ixgnd [label="generate-gnd-index.flux"]
+ixr [label="index-records.flow"]
+ixm [label="index-bundles.flow"]
+ixgnd [label="Tp-index.flow"]
 morphvis [label="java org.culturegraph.mf.morph.MorphVis"]
-ixsubj [label="gndbackref-index.flux"]
+ixsubj [label="gndbackref-index.flow"]
 
 node [shape=box, style="dashed,filled" fillcolor=violet, fontsize=10];  
 tocenr [label ="job_morphHTable.sh morph/toc/tocExtract.xml,morph/toc/tocCombine.xml"]
