@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metamorph xmlns="http://www.culturegraph.org/metamorph"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1">
+	<meta>
+		<name>Transformation for the rdf representation of entities</name>
+	</meta>
+
+	<rules>
+
+		<data source="_id" name="_id">
+			<compose prefix="http://hub.culturegraph.org/resource/" />
+		</data>
+
+		<data source="dcterms:language" />
+		<data source="dcterms:format" />
+		<data source="dcterms:extent" />
+		<data name="dcterms:creator" source="cg:creator.name" />
+
+		<combine name="dcterms:title" value="${title}${addition}${part}"
+			flushWith="record">
+			<data source="dcterms:title" name="title">
+				<replace pattern="[/;:]$" with="" />
+			</data>
+			<data source="cg:addTitle" name="addition">
+				<replace pattern="[/;:]$" with="" />
+				<compose prefix=" - " />
+			</data>
+			<data source="cg:partTitle" name="part">
+				<replace pattern="[/;:]$" with="" />
+				<compose prefix=" - " />
+			</data>
+		</combine>
+
+		<data source="bibo:isbn13" />
+		<data source="dcterms:issued">
+			<replace pattern="[\[\]]" with="" />
+		</data>
+		<data source="bibo:gtin14" />
+
+		<data name="@prefix" source="_id">
+			<substring end="3" />
+		</data>
+
+		<combine name="foaf:page" value="${prefix}${id}">
+			<data source="cg:sourceRecordId" name="id" />
+			<data source="@prefix" name="prefix">
+				<lookup in="urls" />
+			</data>
+		</combine>
+
+		<data source="cg:type" name="*rdf:type">
+			<lookup>
+				<entry name="bib" value="http://purl.org/ontology/bibo/Document" />
+				<entry name="bundle" value="http://purl.org/net/bundle#Bundle" />
+			</lookup>
+		</data>
+		<data source="cg:contains" name="*bundle:encapsulates">
+			<compose prefix="http://hub.culturegraph.org/resource/" />
+		</data>
+
+
+		<entity name="cg:containedIn" flushWith="bundle">
+			<data source="bundle._id" name="~rdf:resource">
+				<compose prefix="http://hub.culturegraph.org/resource/" />
+			</data>
+			<data source="bundle.cg:contains" name="*bundle:encapsulates">
+				<compose prefix="http://hub.culturegraph.org/resource/" />
+			</data>
+			<data source="bundle._id" name="bundle:justifiedBy">
+				<regexp match="^((.*?))\$" format="${1}" />
+				<compose prefix="http://hub.culturegraph.org/statistics/alg/" />
+			</data>
+
+		</entity>
+
+		<data source="cg:alg">
+			<equals string="" />
+		</data>
+
+		<combine name="bundle:justifiedBy" value="${alg}">
+			<data source="cg:type">
+				<equals string="bundle" />
+			</data>
+			<data source="_id" name="alg">
+				<regexp match="^((.*?))\$" format="${1}" />
+				<compose prefix="http://hub.culturegraph.org/statistics/alg/" />
+			</data>
+		</combine>
+
+	</rules>
+
+	<maps>
+		<!-- <map name="namespaces"> -->
+		<!-- <entry name="" value="http://hub.culturegraph.org/resource/" /> -->
+		<!-- <entry name="cg" value="http://hub.culturegraph.org/vocab#" /> -->
+		<!-- <entry name="bibo" value="http://purl.org/ontology/bibo/" /> -->
+		<!-- <entry name="dcterms" value="http://purl.org/dc/terms/" /> -->
+		<!-- <entry name="bundle" value="http://purl.org/net/bundle#" /> -->
+		<!-- <entry name="rdf" value="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+			/> -->
+		<!-- <entry name="foaf" value="http://xmlns.com/foaf/0.1/" /> -->
+		<!-- <entry name="frbr" value="http://purl.org/vocab/frbr/core#" /> -->
+		<!-- </map> -->
+		<map name="urls">
+			<entry name="DNB" value="http://d-nb.info/" />
+			<entry name="HBZ"
+				value="http://193.30.112.134/F/?func=find-a&amp;request=idn=" />
+			<entry name="HEB"
+				value="http://cbsopac.rz.uni-frankfurt.de/DB=2.1/CMD?COLMODE=1&amp;ACT=SRCHA&amp;IKT=12&amp;SRT=YOP&amp;TRM=" />
+			<entry name="BSZ"
+				value="http://swb.bsz-bw.de/DB=2.1/SET=1/TTL=2/CMD?ACT=SRCHA&amp;IKT=12&amp;SRT=RLV&amp;TRM=" />
+			<entry name="GBV"
+				value="http://gso.gbv.de/DB=2.1/SET=1/TTL=1/CMD?ACT=SRCHA&amp;IKT=12&amp;SRT=YOP&amp;TRM=" />
+			<entry name="BVB" value="http://lod.b3kat.de/page/title/" />
+			<entry name="OBV"
+				value="http://search.obvsg.at/primo_library/libweb/action/dlSearch.do?vid=ACC&amp;institution=ACC&amp;loc=local,scope:%28ACC_aleph%29&amp;query=any,contains,
+			" />
+		</map>
+	</maps>
+
+</metamorph>

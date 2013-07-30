@@ -1,0 +1,10 @@
+default table = "cg-wrk";
+default out = table + ".rdf";
+
+table + "/scanner" | from-hbase(host) | 
+filter(FLUX_DIR + "filter.xml")|
+morph(FLUX_DIR + "rdf.xml")|
+change-id|
+rdf-macros(autoaddedsubject="bibo:Document")|
+stream-to-xml(roottag="rdf:RDF", recordtag="", namespacefile= FLUX_DIR+"rdf-namespace.properties")|
+write(out);
