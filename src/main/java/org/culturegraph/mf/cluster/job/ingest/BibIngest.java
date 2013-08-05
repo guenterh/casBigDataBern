@@ -58,8 +58,8 @@ public final class BibIngest extends AbstractJobLauncher {
 	protected Configuration prepareConf(final Configuration config) {
 
 		addRequiredArguments(ConfigConst.OUTPUT_TABLE, ConfigConst.FORMAT, ConfigConst.INGEST_PREFIX,
-				ConfigConst.INPUT_PATH, ConfigConst.MORPH_DEF);
-		addOptionalArguments(ConfigConst.STORE_RAW_DATA, "hbase.zookeeper.quorum");
+				ConfigConst.INPUT_PATH);
+		addOptionalArguments(ConfigConst.STORE_RAW_DATA, "hbase.zookeeper.quorum", ConfigConst.MORPH_DEF);
 
 		final Configuration conf = HBaseConfiguration.create(config);
 		conf.setIfUnset(ConfigConst.STORE_RAW_DATA, ConfigConst.FALSE);
@@ -116,14 +116,17 @@ public final class BibIngest extends AbstractJobLauncher {
 			reader = new MultiFormatReader(conf.get(ConfigConst.FORMAT));
 			collector = new ComplexPutWriter();
 			collector.setIdPrefix(conf.get(ConfigConst.INGEST_PREFIX, ""));
-			final Metamorph metamorph = new Metamorph(conf.get(ConfigConst.MORPH_DEF));
-			metamorph.setErrorHandler(this);
-			reader.setReceiver(metamorph);
-
-	
-			metamorph.setReceiver(collector);
-
-
+			
+			final String morphDef = conf.get(ConfigConst.MORPH_DEF, "");
+			if(morphDef.isEmpty()){
+				reader.setReceiver(collector);
+			}else{
+				final Metamorph metamorph = new Metamorph(morphDef);
+				metamorph.setErrorHandler(this);
+				reader.setReceiver(metamorph);
+				metamorph.setReceiver(collector);
+			}
+			
 			htable = new HTable(conf, conf.get(ConfigConst.OUTPUT_TABLE));
 			htable.setAutoFlush(false);
 			htable.setWriteBufferSize(WRITE_BUFFER);
