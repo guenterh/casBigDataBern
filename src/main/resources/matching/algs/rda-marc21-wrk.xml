@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metamorph xmlns="http://www.culturegraph.org/metamorph"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1">
+	<meta>
+		<name>rdawrk</name>
+	</meta>
+	<rules>
+
+		<combine name="@name" value="${a}${b}${c}" flushWith="100??"
+			reset="true">
+			<data source="100??.a" name="a"></data>
+			<data source="100??.b" name="b"></data>
+			<data source="100??.c" name="c"></data>
+		</combine>
+
+		<combine name="@name" value="${a}${b}" flushWith="110??"
+			reset="true">
+			<data source="110??.a" name="a"></data>
+			<data source="110??.b" name="b"></data>
+
+		</combine>
+
+		<combine name="@name" value="${a}${c}${d}${e}" flushWith="111??"
+			reset="true">
+			<data source="111??.a" name="a"></data>
+			<data source="111??.b" name="c"></data>
+			<data source="111??.c" name="d"></data>
+			<data source="100??.c" name="e"></data>
+		</combine>
+
+		<combine name="@name" value="${value}" reset="true">
+			<combine name="value" value="${a}${b}${c}" flushWith="700??">
+				<data source="700??.a" name="a"></data>
+				<data source="700??.b" name="b"></data>
+				<data source="700??.c" name="c"></data>
+			</combine>
+			<data source="700??.4" name="">
+				<equals string="aut" />
+			</data>
+		</combine>
+
+		<combine name="@name" value="${value}" reset="true">
+			<combine name="value" value="${a}${b}${c}" flushWith="710??">
+				<data source="710??.a" name="a"></data>
+				<data source="71??.b" name="b"></data>
+			</combine>
+			<data source="710??.4" name="">
+				<equals string="aut" />
+			</data>
+		</combine>
+
+		<combine name="@name" value="${value}" reset="true">
+			<combine name="value" value="${a}${c}${d}${e}" flushWith="711??">
+				<data source="711??.a" name="a"></data>
+				<data source="711??.c" name="c"></data>
+				<data source="711??.d" name="d"></data>
+				<data source="711??.e" name="e"></data>
+			</combine>
+			<data source="711??.4" name="">
+				<equals string="aut" />
+			</data>
+		</combine>
+
+		<combine name="key" value="${name}${title}" flushWith="record">
+			<concat delimiter="" name="name">
+				<data source="@name">
+					<normalize-utf8 />
+					<case to="lower" />
+					<setreplace map="diac" />
+					<setreplace map="namer" />
+					<replace pattern="[\s,]" with="" />
+				</data>
+			</concat>
+
+
+			<choose name="title">
+				<data source="240??.a"></data>
+				<data source="730??.a"></data>
+				<data source="246?9.a"></data>
+				<data source="245??.a"></data>
+				<postprocess>
+					<normalize-utf8 />
+					<case to="lower" />
+					<setreplace map="diac" />
+					<setreplace map="titler" />
+					<replace pattern="[,\s\-\.;\)\(\]\[ @!?/\\'&quot;]" with="" />
+					<replace pattern="\s?bis\s?" with="-" />
+				</postprocess>
+			</choose>
+
+
+			<postprocess>
+				<not-equals string="" />
+			</postprocess>
+
+		</combine>
+
+	</rules>
+
+
+
+	<maps>
+		<map name="namer">
+			<entry name="Mc" value="Mac" />
+		</map>
+
+		<map name="titler">
+			<entry name="eins" value="1" />
+			<entry name="zwei" value="2" />
+			<entry name="drei" value="3" />
+			<entry name="vier" value="4" />
+			<entry name="fuenf" value="5" />
+			<entry name="sechs" value="6" />
+			<entry name="sieben" value="7" />
+			<entry name="acht" value="8" />
+			<entry name="neun" value="9" />
+			<entry name="zehn" value="10" />
+			<entry name="elf" value="11" />
+			<entry name="zwoelf" value="12" />
+
+			<entry name="erster" value="1." />
+			<entry name="zweiter" value="2." />
+			<entry name="dritter" value="3." />
+			<entry name="vierter" value="4." />
+			<entry name="fuenfter" value="5." />
+			<entry name="sechster" value="6." />
+			<entry name="siebter" value="7." />
+			<entry name="achter" value="8." />
+			<entry name="neunter" value="9." />
+			<entry name="zehnter" value="10." />
+			<entry name="elfter" value="11." />
+			<entry name="zwoelfter" value="12." />
+
+			<entry name="hundert" value="100" />
+			<entry name="fünfundzwanzig" value="25" />
+			<entry name="fünfzig" value="50" />
+
+		</map>
+
+		<map name="diac">
+			<entry name="ä" value="ae" />
+			<entry name="ü" value="ue" />
+			<entry name="ö" value="oe" />
+			<entry name="ß" value="ss" />
+			<entry name="é" value="e" />
+			<entry name="á" value="a" />
+			<entry name="ë" value="e" />
+			<entry name="ï" value="i" />
+			<entry name="à" value="a" />
+			<entry name="è" value="e" />
+			<entry name="â" value="a" />
+			<entry name="ê" value="e" />
+			<entry name="å" value="a" />
+			<entry name="æ" value="ae" />
+			<entry name="ç" value="c" />
+			<entry name="œ" value="oe" />
+			<entry name="ñ" value="n" />
+			<entry name="š" value="s" />
+			<entry name="&amp;" value="u." />
+			<entry name="und" value="u." />
+			<entry name="+" value="u." />
+			<entry name="" value="" />
+			<entry name="" value="" />
+		</map>
+	</maps>
+
+</metamorph>

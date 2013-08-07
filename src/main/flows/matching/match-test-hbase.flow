@@ -1,10 +1,11 @@
 default table = "cg";
 default host = "borges";
-default id = "GBV-026658208";
+default id = "DNB-997724587";
 default alg = "ntcy";
 
 table + "/row/" + id | from-hbase(host) | 
-morph("matching/algs/"+alg+".xml")|
+morph(FLUX_DIR + "../../resources/matching/algs/"+alg+".xml")|
 stream-to-triples|
 template("${o}")|
+//encode-formeta(style="verbose")|
 write("stdout");
