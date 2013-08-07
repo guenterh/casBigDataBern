@@ -91,7 +91,7 @@
 				</choose>
 			</combine>
 
-			<data source="007" name="filter">
+			<data source="007" name="not online publication filter">
 				<substring start="0" end="2" />
 				<not-equals string="cr" />
 			</data>
