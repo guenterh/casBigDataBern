@@ -61,43 +61,46 @@
 			</data>
 		</combine>
 
-		<combine name="key" value="${name}${title}" flushWith="record">
-			<concat delimiter="" name="name">
-				<data source="@name">
-					<normalize-utf8 />
-					<case to="lower" />
-					<setreplace map="diac" />
-					<setreplace map="namer" />
-					<replace pattern="[\s,]" with="" />
-				</data>
-			</concat>
+		<combine name="key" value="${value}"
+			flushWith="record">
+			
+			<combine name="value" value="${name}${title}">
+				<concat delimiter="" name="name">
+					<data source="@name">
+						<normalize-utf8 />
+						<case to="lower" />
+						<setreplace map="diac" />
+						<setreplace map="namer" />
+						<replace pattern="[\s,]" with="" />
+					</data>
+				</concat>
 
+				<choose name="title">
+					<data source="240??.a"></data>
+					<data source="730??.a"></data>
+					<data source="246?9.a"></data>
+					<data source="245??.a"></data>
+					<postprocess>
+						<normalize-utf8 />
+						<case to="lower" />
+						<setreplace map="diac" />
+						<setreplace map="titler" />
+						<replace pattern="[,\s\-\.;\)\(\]\[ @!?/\\'&quot;]" with="" />
+						<replace pattern="\s?bis\s?" with="-" />
+					</postprocess>
+				</choose>
+			</combine>
 
-			<choose name="title">
-				<data source="240??.a"></data>
-				<data source="730??.a"></data>
-				<data source="246?9.a"></data>
-				<data source="245??.a"></data>
-				<postprocess>
-					<normalize-utf8 />
-					<case to="lower" />
-					<setreplace map="diac" />
-					<setreplace map="titler" />
-					<replace pattern="[,\s\-\.;\)\(\]\[ @!?/\\'&quot;]" with="" />
-					<replace pattern="\s?bis\s?" with="-" />
-				</postprocess>
-			</choose>
-
+			<data source="007" name="filter">
+				<substring start="0" end="2" />
+				<not-equals string="cr" />
+			</data>
 
 			<postprocess>
 				<not-equals string="" />
 			</postprocess>
-
 		</combine>
-
 	</rules>
-
-
 
 	<maps>
 		<map name="namer">
