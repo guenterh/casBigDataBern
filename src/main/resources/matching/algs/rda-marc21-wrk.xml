@@ -76,6 +76,7 @@
 				</concat>
 
 				<choose name="title">
+					<data source="130??.a"></data>
 					<data source="240??.a"></data>
 					<data source="730??.a"></data>
 					<data source="246?9.a"></data>
@@ -91,9 +92,14 @@
 				</choose>
 			</combine>
 
-			<data source="007" name="not online publication filter">
-				<substring start="0" end="2" />
-				<not-equals string="cr" />
+			<data source="leader" name="Monograph or Item">
+				<substring start="7" end="8" />
+				<equals string="m" />
+			</data>
+			
+			<data source="leader" name="not Part with dependent title">
+				<substring start="19" end="20" />
+				<not-equals string="c" />
 			</data>
 
 			<postprocess>
