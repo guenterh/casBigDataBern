@@ -6,21 +6,21 @@
 	</meta>
 	<rules>
 
-		<combine name="@name" value="${a}${b}${c}" flushWith="100??"
+		<combine name="@name1" value="${a}${b}${c}" flushWith="100??"
 			reset="true">
 			<data source="100??.a" name="a"></data>
 			<data source="100??.b" name="b"></data>
 			<data source="100??.c" name="c"></data>
 		</combine>
 
-		<combine name="@name" value="${a}${b}" flushWith="110??"
+		<combine name="@name1" value="${a}${b}" flushWith="110??"
 			reset="true">
 			<data source="110??.a" name="a"></data>
 			<data source="110??.b" name="b"></data>
 
 		</combine>
 
-		<combine name="@name" value="${a}${c}${d}${e}" flushWith="111??"
+		<combine name="@name1" value="${a}${c}${d}${e}" flushWith="111??"
 			reset="true">
 			<data source="111??.a" name="a"></data>
 			<data source="111??.b" name="c"></data>
@@ -28,7 +28,7 @@
 			<data source="100??.c" name="e"></data>
 		</combine>
 
-		<combine name="@name" value="${value}" reset="true">
+		<combine name="@name7" value="${value}" reset="true">
 			<combine name="value" value="${a}${b}${c}" flushWith="700??">
 				<data source="700??.a" name="a"></data>
 				<data source="700??.b" name="b"></data>
@@ -37,9 +37,10 @@
 			<data source="700??.4" name="">
 				<equals string="aut" />
 			</data>
+		
 		</combine>
 
-		<combine name="@name" value="${value}" reset="true">
+		<combine name="@name7" value="${value}" reset="true">
 			<combine name="value" value="${a}${b}${c}" flushWith="710??">
 				<data source="710??.a" name="a"></data>
 				<data source="71??.b" name="b"></data>
@@ -49,7 +50,7 @@
 			</data>
 		</combine>
 
-		<combine name="@name" value="${value}" reset="true">
+		<combine name="@name7" value="${value}" reset="true">
 			<combine name="value" value="${a}${c}${d}${e}" flushWith="711??">
 				<data source="711??.a" name="a"></data>
 				<data source="711??.c" name="c"></data>
@@ -60,6 +61,11 @@
 				<equals string="aut" />
 			</data>
 		</combine>
+
+		<group name="@name">
+			<data source="@name1"></data>
+			<data source="@name7"></data>
+		</group>
 
 		<combine name="key" value="${value}"
 			flushWith="record">
