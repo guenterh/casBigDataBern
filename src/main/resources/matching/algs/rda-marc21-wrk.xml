@@ -28,8 +28,31 @@
 			<data source="100??.c" name="e"></data>
 		</combine>
 
-		<combine name="@name7" value="${value}" reset="true">
-			<combine name="value" value="${a}${b}${c}" flushWith="700??">
+		<combine name="@name7" value="${a}${b}${c}" flushWith="700??"
+			reset="true">
+			<data source="700??.a" name="a"></data>
+			<data source="700??.b" name="b"></data>
+			<data source="700??.c" name="c"></data>
+		</combine>
+
+		<combine name="@name7" value="${a}${b}" flushWith="110??"
+			reset="true">
+			<data source="710??.a" name="a"></data>
+			<data source="710??.b" name="b"></data>
+
+		</combine>
+
+		<combine name="@name7" value="${a}${c}${d}${e}" flushWith="111??"
+			reset="true">
+			<data source="711??.a" name="a"></data>
+			<data source="711??.b" name="c"></data>
+			<data source="711??.c" name="d"></data>
+			<data source="700??.c" name="e"></data>
+		</combine>
+
+		<combine name="@name7aut" value="${value}" reset="true">
+			<combine name="value" value="${a}${b}${c}" flushWith="700??"
+				reset="true">
 				<data source="700??.a" name="a"></data>
 				<data source="700??.b" name="b"></data>
 				<data source="700??.c" name="c"></data>
@@ -37,11 +60,12 @@
 			<data source="700??.4" name="">
 				<equals string="aut" />
 			</data>
-		
+
 		</combine>
 
-		<combine name="@name7" value="${value}" reset="true">
-			<combine name="value" value="${a}${b}${c}" flushWith="710??">
+		<combine name="@name7aut" value="${value}" reset="true">
+			<combine name="value" value="${a}${b}${c}" flushWith="710??"
+				reset="true">
 				<data source="710??.a" name="a"></data>
 				<data source="71??.b" name="b"></data>
 			</combine>
@@ -50,8 +74,9 @@
 			</data>
 		</combine>
 
-		<combine name="@name7" value="${value}" reset="true">
-			<combine name="value" value="${a}${c}${d}${e}" flushWith="711??">
+		<combine name="@name7aut" value="${value}" reset="true">
+			<combine name="value" value="${a}${c}${d}${e}" flushWith="711??"
+				reset="true">
 				<data source="711??.a" name="a"></data>
 				<data source="711??.c" name="c"></data>
 				<data source="711??.d" name="d"></data>
@@ -62,24 +87,29 @@
 			</data>
 		</combine>
 
-		<group name="@name">
-			<data source="@name1"></data>
-			<data source="@name7"></data>
-		</group>
 
-		<combine name="key" value="${value}"
-			flushWith="record">
-			
+		<combine name="key" value="${value}" flushWith="record">
+
 			<combine name="value" value="${name}${title}">
-				<concat delimiter="" name="name">
-					<data source="@name">
+
+				<choose name="name">
+					<concat delimiter="" name="">
+						<data source="@name1" />
+						<data source="@name7aut" />
+					</concat>
+					<concat delimiter="" name="">
+						<data source="@name7"/>
+					</concat>
+					<postprocess>
 						<normalize-utf8 />
 						<case to="lower" />
 						<setreplace map="diac" />
 						<setreplace map="namer" />
 						<replace pattern="[\s,]" with="" />
-					</data>
-				</concat>
+					</postprocess>
+				</choose>
+
+
 
 				<choose name="title">
 					<data source="130??.a"></data>
@@ -102,7 +132,7 @@
 				<substring start="7" end="8" />
 				<equals string="m" />
 			</data>
-			
+
 			<data source="leader" name="not Part with dependent title">
 				<substring start="19" end="20" />
 				<not-equals string="c" />
