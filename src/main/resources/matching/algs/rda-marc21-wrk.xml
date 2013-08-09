@@ -8,54 +8,54 @@
 
 		<combine name="@name1" value="${a}${b}${c}" flushWith="100??"
 			reset="true">
-			<data source="100??.a" name="a"></data>
-			<data source="100??.b" name="b"></data>
-			<data source="100??.c" name="c"></data>
+			<data source="100??.a" name="a"/>
+			<data source="100??.b" name="b"/>
+			<data source="100??.c" name="c"/>
 		</combine>
 
 		<combine name="@name1" value="${a}${b}" flushWith="110??"
 			reset="true">
-			<data source="110??.a" name="a"></data>
-			<data source="110??.b" name="b"></data>
+			<data source="110??.a" name="a"/>
+			<data source="110??.b" name="b"/>
 
 		</combine>
 
 		<combine name="@name1" value="${a}${c}${d}${e}" flushWith="111??"
 			reset="true">
-			<data source="111??.a" name="a"></data>
-			<data source="111??.b" name="c"></data>
-			<data source="111??.c" name="d"></data>
-			<data source="100??.c" name="e"></data>
+			<data source="111??.a" name="a"/>
+			<data source="111??.c" name="c"/>
+			<data source="111??.d" name="d"/>
+			<data source="111??.e" name="e"/>
 		</combine>
 
 		<combine name="@name7" value="${a}${b}${c}" flushWith="700??"
 			reset="true">
-			<data source="700??.a" name="a"></data>
-			<data source="700??.b" name="b"></data>
-			<data source="700??.c" name="c"></data>
+			<data source="700??.a" name="a"/>
+			<data source="700??.b" name="b"/>
+			<data source="700??.c" name="c"/>
 		</combine>
 
-		<combine name="@name7" value="${a}${b}" flushWith="110??"
+		<combine name="@name7" value="${a}${b}" flushWith="710??"
 			reset="true">
-			<data source="710??.a" name="a"></data>
-			<data source="710??.b" name="b"></data>
+			<data source="710??.a" name="a"/>
+			<data source="710??.b" name="b"/>
 
 		</combine>
 
-		<combine name="@name7" value="${a}${c}${d}${e}" flushWith="111??"
+		<combine name="@name7" value="${a}${c}${d}${e}" flushWith="711??"
 			reset="true">
-			<data source="711??.a" name="a"></data>
-			<data source="711??.b" name="c"></data>
-			<data source="711??.c" name="d"></data>
-			<data source="700??.c" name="e"></data>
+			<data source="711??.a" name="a"/>
+			<data source="711??.c" name="c"/>
+			<data source="711??.d" name="d"/>
+			<data source="711??.e" name="e"/>
 		</combine>
 
 		<combine name="@name7aut" value="${value}" reset="true">
 			<combine name="value" value="${a}${b}${c}" flushWith="700??"
 				reset="true">
-				<data source="700??.a" name="a"></data>
-				<data source="700??.b" name="b"></data>
-				<data source="700??.c" name="c"></data>
+				<data source="700??.a" name="a"/>
+				<data source="700??.b" name="b"/>
+				<data source="700??.c" name="c"/>
 			</combine>
 			<data source="700??.4" name="">
 				<equals string="aut" />
@@ -66,8 +66,8 @@
 		<combine name="@name7aut" value="${value}" reset="true">
 			<combine name="value" value="${a}${b}${c}" flushWith="710??"
 				reset="true">
-				<data source="710??.a" name="a"></data>
-				<data source="71??.b" name="b"></data>
+				<data source="710??.a" name="a"/>
+				<data source="710??.b" name="b"/>
 			</combine>
 			<data source="710??.4" name="">
 				<equals string="aut" />
@@ -77,10 +77,10 @@
 		<combine name="@name7aut" value="${value}" reset="true">
 			<combine name="value" value="${a}${c}${d}${e}" flushWith="711??"
 				reset="true">
-				<data source="711??.a" name="a"></data>
-				<data source="711??.c" name="c"></data>
-				<data source="711??.d" name="d"></data>
-				<data source="711??.e" name="e"></data>
+				<data source="711??.a" name="a"/>
+				<data source="711??.c" name="c"/>
+				<data source="711??.d" name="d"/>
+				<data source="711??.e" name="e"/>
 			</combine>
 			<data source="711??.4" name="">
 				<equals string="aut" />
@@ -112,11 +112,11 @@
 
 
 				<choose name="title">
-					<data source="130??.a"></data>
-					<data source="240??.a"></data>
-					<data source="730??.a"></data>
-					<data source="246?9.a"></data>
-					<data source="245??.a"></data>
+					<data source="130??.a"/>
+					<data source="240??.a"/>
+					<data source="730??.a"/>
+					<data source="246?9.a"/>
+					<data source="245??.a"/>
 					<postprocess>
 						<normalize-utf8 />
 						<case to="lower" />
