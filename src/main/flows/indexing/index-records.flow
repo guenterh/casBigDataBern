@@ -2,7 +2,7 @@ default table = "cg";
 default host = "borges";
 default base = "";
 
-table + "/scanner?stopRow=DNB" 
+table + "/scanner" 
 |from-hbase(host)
 |stream-to-index(FLUX_DIR + "../../resources/indexing/datastore.xml", indexpath= base + table + "_ix", rambuffer="700");
 //|morph(FLUX_DIR + "../../resources/indexing/datastore.xml")
