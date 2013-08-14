@@ -6,6 +6,7 @@
 	</meta>
 	<rules>
 
+		<!-- this part is for generating the match-key -->
 		<combine name="@name1" value="${a}${b}${c}" flushWith="100??"
 			reset="true">
 			<data source="100??.a" name="a"/>
@@ -27,6 +28,8 @@
 			<data source="111??.d" name="d"/>
 			<data source="111??.e" name="e"/>
 		</combine>
+		
+		<data source="130??.a" name="@130a"></data>
 
 		<combine name="@name7" value="${a}${b}${c}" flushWith="700??"
 			reset="true">
@@ -90,33 +93,9 @@
 
 		<combine name="key" value="${value}" flushWith="record">
 
-			<combine name="value" value="${name}${title}">
-
-				<choose name="name">
-					<concat delimiter="" name="">
-						<data source="@name1" />
-						<data source="@name7aut" />
-					</concat>
-					<concat delimiter="" name="">
-						<data source="@name7"/>
-					</concat>
-					<postprocess>
-						<normalize-utf8 />
-						<case to="lower" />
-						<setreplace map="diac" />
-						<setreplace map="namer" />
-						<replace pattern="[\s,]" with="" />
-					</postprocess>
-				</choose>
-
-
-
-				<choose name="title">
-					<data source="130??.a"/>
-					<data source="240??.a"/>
-					<data source="730??.a"/>
-					<data source="246?9.a"/>
-					<data source="245??.a"/>
+			<choose>
+				<combine name="value" value="${title}">		
+					<data name="title" source="130??.a"/> 
 					<postprocess>
 						<normalize-utf8 />
 						<case to="lower" />
@@ -125,8 +104,48 @@
 						<replace pattern="[,\s\-\.;\)\(\]\[ @!?/\\'&quot;]" with="" />
 						<replace pattern="\s?bis\s?" with="-" />
 					</postprocess>
-				</choose>
-			</combine>
+				</combine>
+			
+				<combine name="value" value="${name}${title}">
+
+					<choose name="name">
+		
+						<concat delimiter="" name="">
+							<data source="@name1" />
+							<data source="@name7aut" />
+						</concat>
+						<concat delimiter="" name="">
+							<data source="@name7"/>
+						</concat>
+						<postprocess>
+							<normalize-utf8 />
+							<case to="lower" />
+							<setreplace map="diac" />
+							<setreplace map="namer" />
+							<replace pattern="[\s,]" with="" />
+						</postprocess>
+					</choose>
+
+
+
+					<choose name="title">
+					<!-- 	<data source="130??.a"/>  -->
+						<data source="240??.a"/>
+						<data source="730??.a"/>
+						<data source="246?9.a"/>
+						<data source="245??.a"/>
+						<postprocess>
+							<normalize-utf8 />
+							<case to="lower" />
+							<setreplace map="diac" />
+							<setreplace map="titler" />
+							<replace pattern="[,\s\-\.;\)\(\]\[ @!?/\\'&quot;]" with="" />
+							<replace pattern="\s?bis\s?" with="-" />
+						</postprocess>
+					</choose>
+				</combine>
+		
+		</choose>
 
 			<data source="leader" name="Monograph or Item">
 				<substring start="7" end="8" />
@@ -142,6 +161,15 @@
 				<not-equals string="" />
 			</postprocess>
 		</combine>
+		
+		
+		<!-- debug information -->
+		<data source="001" name="url" >
+			<compose prefix="http://d-nb.info/" />
+		</data>
+		<!-- <data source="@130a" name="field130a" />-->
+		
+		
 	</rules>
 
 	<maps>
@@ -202,7 +230,7 @@
 			<entry name="ñ" value="n" />
 			<entry name="š" value="s" />
 			<entry name="&amp;" value="u." />
-			<entry name="und" value="u." />
+			<entry name=" und " value="u." />
 			<entry name="+" value="u." />
 			<entry name="" value="" />
 			<entry name="" value="" />
