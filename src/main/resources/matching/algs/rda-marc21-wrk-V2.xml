@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metamorph xmlns="http://www.culturegraph.org/metamorph"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1">
+	<meta>
+		<name>rdawrkV2</name>
+	</meta>
+	<rules>
+	
+		<data source="001" name="@idn" />
+
+		<!-- this part is for generating the match-key -->
+		<combine name="@name1" value="${a}${b}${c}" flushWith="100??"
+			reset="true">
+			<data source="100??.a" name="a" />
+			<data source="100??.b" name="b" />
+			<data source="100??.c" name="c" />
+		</combine>
+
+		<combine name="@name1" value="${a}${b}${g}" flushWith="110??"
+			reset="true">
+			<data source="110??.a" name="a" />
+			<data source="110??.b" name="b" />
+			<data source="110??.g" name="g" />
+
+		</combine>
+
+		<combine name="@name1" value="${a}${c}${d}${e}${n}${G}" flushWith="111??"
+			reset="true">
+			<data source="111??.a" name="a" />
+			<data source="111??.c" name="c" />
+			<data source="111??.d" name="d" />
+			<data source="111??.e" name="e" />
+			<data source="111??.d" name="n" />
+			<data source="111??.e" name="G" />
+		</combine>
+
+		<data source="130??.a" name="@130a"></data>
+
+		<combine name="@name700" value="${a}${b}${c}" flushWith="700??"
+			reset="true">
+			<data source="700??.a" name="a" />
+			<data source="700??.b" name="b" />
+			<data source="700??.c" name="c" />
+		</combine>
+
+		<combine name="@name7" value="${a}${b}${g}" flushWith="710??"
+			reset="true">
+			<data source="710??.a" name="a" />
+			<data source="710??.b" name="b" />
+			<data source="710??.b" name="g" />
+		</combine>
+		
+		<combine name="@name7" value="${a}${c}${d}${e}" flushWith="711??" 
+				reset="true">
+				<data source="711??.a" name="a"/>
+				<data source="711??.c" name="c"/>
+				<data source="711??.d" name="d"/>
+				<data source="711??.e" name="e"/>
+		</combine>
+
+		<combine name="@name7" value="${a}${c}${d}${e}" flushWith="711??"
+			reset="true">
+			<data source="711??.a" name="a" />
+			<data source="711??.c" name="c" />
+			<data source="711??.d" name="d" />
+			<data source="711??.e" name="e" />
+		</combine>
+		
+		<combine name="@name7aut" value="${value}" reset="true">
+			<combine name="value" value="${a}${b}${c}" flushWith="700??"
+				reset="true">
+				<data source="700??.a" name="a" />
+				<data source="700??.b" name="b" />
+				<data source="700??.c" name="c" />
+			</combine>
+			<data source="700??.4" name="">
+				<equals string="aut" />
+			</data>
+		</combine>
+
+		<combine name="@name7aut" value="${value}" reset="true">
+			<combine name="value" value="${a}${b}${c}${g}" flushWith="710??"
+				reset="true">
+				<data source="710??.a" name="a" />
+				<data source="710??.b" name="b" />
+				<data source="710??.g" name="g" />
+			</combine>
+			<data source="710??.4" name="">
+				<equals string="aut" />
+			</data>
+		</combine>
+
+		<combine name="@name7aut" value="${value}" reset="true">
+			<combine name="value" value="${a}${c}${d}${e}${n}${g}" flushWith="711??"
+				reset="true">
+				<data source="711??.a" name="a" />
+				<data source="711??.c" name="c" />
+				<data source="711??.d" name="d" />
+				<data source="711??.e" name="e" />
+				<data source="711??.n" name="n" />
+				<data source="711??.g" name="g" />
+			</combine>
+			<data source="711??.4" name="">
+				<equals string="aut" />
+			</data>
+		</combine>
+
+
+		<combine name="key1" value="${value}" flushWith="record">
+			<choose>
+				<combine name="value" value="${title}">
+					<data name="title" source="@130a" />
+					<postprocess>
+						<case to="lower" />
+						<setreplace map="diac" />
+						<replace pattern="[\u0300-\u036F]" with="" />
+						<replace pattern="\u0098.*\u009C" with="" />
+						<replace pattern="\u030E" with="" />
+						<setreplace map="titler" />
+						<replace pattern="[\,\.:;\-\)\(\]\[\{\}!?/\\'&quot;]" with="" />
+						<replace pattern="\s?bis\s?" with="-" />
+					</postprocess>
+				</combine>
+
+				<combine name="value" value="${name}${title}">
+					<choose name="name">
+						<concat delimiter="" name="">
+						<!-- 	<sort> -->
+							<data source="@name1" />
+							<data source="@name7aut" />
+						<!-- 	</sort> -->
+						</concat>
+						<choose>
+							<concat delimiter="" name="">
+								<data source="@name700" />
+							</concat>
+							<concat delimiter="" name="">
+								<data source="@name7" />
+								<data source="@idn" />
+							</concat>
+						</choose>
+						
+						<postprocess>
+							<case to="lower" />
+							<replace pattern="[\u0300-\u036F]" with="" />
+							<replace pattern="\u0098.*\u009C" with="" />
+							<replace pattern="\u030E" with="" />
+							<setreplace map="namer" />
+							<replace pattern="[\.\-]" with="" />
+						</postprocess>
+					</choose>
+					
+					<choose name="title">
+						<!-- <data source="130??.a"/> -->
+						<data source="240??.a" />
+						<data source="730??.a" />
+						<data source="246?9.a" />
+						<data source="245??.a" />
+						<postprocess>
+							<case to="lower" />
+							<setreplace map="diac" />
+							<replace pattern="[\u0300-\u036F]" with="" />
+							<replace pattern="\u0098.*\u009C" with="" />
+							<replace pattern="\u030E" with="" />
+							<setreplace map="titler" />
+							<replace pattern="[\,\.:;\-\)\(\]\[\{\}!?/\\'&quot;]" with="" />
+							<replace pattern="\s?bis\s?" with="-" />
+						</postprocess>
+					</choose>
+				</combine>
+								
+			</choose>
+
+			<data source="leader" name="Monograph or Item">
+				<substring start="7" end="8" />
+				<equals string="m" />
+			</data>
+
+			<data source="leader" name="not Part with dependent title">
+				<substring start="19" end="20" />
+				<not-equals string="c" />
+			</data>
+
+			<postprocess>
+				<normalize-utf8 />
+				<!-- <not-equals string="" /> -->
+			</postprocess>
+			
+		</combine> <!-- end of key1 -->
+
+
+		<!-- debug information -->
+		<data source="@idn" name="url">
+			<compose prefix="http://d-nb.info/" />
+		</data>
+		<!-- <data source="@130a" name="field130a" /> -->
+
+
+	</rules>
+
+	<maps>
+		<map name="namer">
+			<entry name=" Mc" value="Mac" />
+		</map>
+
+		<map name="titler">
+			<entry name=" eins " value="1" />
+			<entry name=" zwei " value="2" />
+			<entry name=" drei " value="3" />
+			<entry name=" vier " value="4" />
+			<entry name=" fuenf " value="5" />
+			<entry name=" sechs " value="6" />
+			<entry name=" sieben " value="7" />
+			<entry name=" acht " value="8" />
+			<entry name=" neun " value="9" />
+			<entry name=" zehn " value="10" />
+			<entry name=" elf " value="11" />
+			<entry name=" zwoelf " value="12" />
+			<entry name=" zwanzig " value="20" />
+			<entry name=" dreissig " value="30" />
+			<entry name=" vierzig " value="40" />
+			<entry name=" fuenfzig " value="50" />
+			
+			<entry name=" fuenfundsiebzig " value="75" />
+			<entry name=" hundert " value="100" />
+			<entry name=" hundertfuenfzig " value="150" />
+			<entry name=" zweihundert " value="200" />
+			<entry name=" zweihundertfuenfzig " value="250" />
+			<entry name=" fuenfhundert " value="500" />
+					
+			<entry name=" erster " value="1." />
+			<entry name=" erstes " value="1." />
+			<entry name=" erste " value="1." />
+			<entry name=" zweiter " value="2." />
+			<entry name=" zweites " value="2." />
+			<entry name=" zweite " value="2." />
+			<entry name=" dritter " value="3." />
+			<entry name=" drittes " value="3." />
+			<entry name=" dritte " value="3." />
+			<entry name=" vierter " value="4." />
+			<entry name=" fuenfter " value="5." />
+			<entry name=" sechster " value="6." />
+			<entry name=" siebter " value="7." />
+			<entry name=" achter " value="8." />
+			<entry name=" neunter " value="9." />
+			<entry name=" zehnter " value="10." />
+			<entry name=" elfter " value="11." />
+			<entry name=" zwoelfter " value="12." />
+	
+
+		</map>
+
+		<map name="diac">
+			<entry name="a¨" value="ae" />
+			<entry name="u¨" value="ue" />
+			<entry name="o¨" value="oe" />
+			<entry name="ß" value="ss" />
+			<entry name=" &amp; " value="u" />
+			<entry name=" und " value="u" />
+			<entry name=" + " value="u" />
+		</map>
+	</maps>
+
+</metamorph>
