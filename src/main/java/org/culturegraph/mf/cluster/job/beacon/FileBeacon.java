@@ -106,8 +106,9 @@ public final class FileBeacon extends AbstractJobLauncher {
 			currentRowId.set("NO ID");
 			try {
 
-				currentRowId.set(PicaDecoder.extractIdFromRecord(record));
-				PicaDecoder.process(record, metamorph);
+				//todo: how to manage this with the new interface of 3.5.0
+				//currentRowId.set(PicaDecoder.extractIdFromRecord(record));
+				//PicaDecoder.process(record, metamorph);
 
 				final String valid = listMapWriter.getFirst(VALID_KEY);
 				if (valid != null) {

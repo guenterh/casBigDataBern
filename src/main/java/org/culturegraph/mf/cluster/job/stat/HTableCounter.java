@@ -77,7 +77,9 @@ public final class HTableCounter extends AbstractJobLauncher {
 		@Override
 		protected void map(final ImmutableBytesWritable row, final CountingReceiver data, final Result raw,
 				final Context context) throws InterruptedException, IOException {
-				CounterUtil.writeCounts(data, context, NAME);
+
+				//todo throws an compilation error
+				//CounterUtil.writeCounts(data, context, NAME);
 		}
 	}
 

@@ -64,10 +64,12 @@ public final class HTableMorphTest {
 
 		final Context context = Mockito.mock(Context.class);
 		// final Counter counter = Mockito.mock(Counter.class);
+
 		Mockito.when(context.getCounter(MorphMapper.NAME, MorphMapper.PROPERTIES_WRITTEN)).thenReturn(
 				Mockito.mock(Counter.class));
 		Mockito.when(context.getCounter(MorphMapper.NAME, MorphMapper.LITERAL_REDIRECTS)).thenReturn(
 				Mockito.mock(Counter.class));
+
 		mapWriter.add(name, value);
 		morphMapper.map(new ImmutableBytesWritable(ROW1.getBytes(Charsets.UTF_8)), mapWriter, null, context);
 		Mockito.verify(context).write(new Text(expectedRow), new NamedValueWritable(expectedName, expectedValue));

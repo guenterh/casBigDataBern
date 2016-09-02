@@ -159,7 +159,9 @@ public final class MultiTableInputFormat extends InputFormat<ImmutableBytesWrita
 		trr.setScan(scan);
 
 		trr.setHTable(pair.getTable());
-		trr.init();
+		//todo evaluate the new mechanism
+		//trr.initialize(????)
+		//trr.init()
 		return trr;
 	}
 
@@ -199,7 +201,9 @@ public final class MultiTableInputFormat extends InputFormat<ImmutableBytesWrita
 			if (!includeRegionInSplit(keys.getFirst()[i], keys.getSecond()[i])) {
 				continue;
 			}
-			final String regionLocation = table.getRegionLocation(keys.getFirst()[i]).getServerAddress().getHostname();
+			//todo method doesn't work with new version
+			final String regionLocation = "";
+			//final String regionLocation = table.getRegionLocation(keys.getFirst()[i]).getServerAddress().getHostname();
 			final byte[] startRow = scan.getStartRow();
 			final byte[] stopRow = scan.getStopRow();
 
@@ -283,7 +287,9 @@ public final class MultiTableInputFormat extends InputFormat<ImmutableBytesWrita
 		final ByteArrayInputStream bis = new ByteArrayInputStream(Base64.decode(base64));
 		final DataInputStream dis = new DataInputStream(bis);
 		final Scan scan = new Scan();
-		scan.readFields(dis);
+
+		//todo: how to manage this?
+		//scan.readFields(dis);
 		return scan;
 	}
 
@@ -299,7 +305,8 @@ public final class MultiTableInputFormat extends InputFormat<ImmutableBytesWrita
 	private static String convertScanToString(final Scan scan) throws IOException {
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		final DataOutputStream dos = new DataOutputStream(out);
-		scan.write(dos);
+		//todo how to manage this??
+		//scan.write(dos);
 		return Base64.encodeBytes(out.toByteArray());
 	}
 
