@@ -21,8 +21,8 @@ public class ConsumerDriverWithWakeUp {
     private MorphFacade morphFacade = null;
 
     public static void main(String[] args) throws IOException{
-        if (args.length == 0) {
-            System.out.println("ConsumerDriverWithWakeUp {brokers} {group.id} {topic}");
+        if (args.length != 6) {
+            System.out.println("ConsumerDriverWithWakeUp {brokers} {group.id} {topic} {morphScript} {usedFormat} {tablename}");
             return;
         }
 
@@ -30,16 +30,13 @@ public class ConsumerDriverWithWakeUp {
         String brokers = args[0];
         String groupId = args[1];
         String topic = args[2];
+        String morphScript = args[3];
+        String usedFormat = args[4];
+        String tablename = args[5];
 
-
-
-        consumerDriver.morphFacade = new MorphFacade();
-
-
-
+        consumerDriver.morphFacade = new MorphFacade(morphScript,usedFormat,tablename);
 
         consumerDriver.configure(brokers, groupId);
-
 
         final Thread mainThread = Thread.currentThread();
 

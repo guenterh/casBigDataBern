@@ -15,29 +15,54 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by swissbib on 02.09.16.
+ *
+ * Copyright 2016 Günter Hipler
+ *
+ * Licensed under the Apache License, Version 2.0 the "License";
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * [...description of the type ...]
+ *
+ *
+ * @author Guenter Hipler  <guenter.hipler@unibas.ch>
+ * @link http://www.swissbib.org
+ *
  */
+
 public class MorphFacade {
 
 
-    private Reader reader = new MultiFormatReader("marcxml");
+    private Reader reader = null;
     private ComplexPutWriter collector = null;
-    //private Connection connection = null;
     private Table table = null;
     private HBaseHelper helper = null;
 
-    MorphFacade() throws IOException{
+    MorphFacade(String morpdefinition,
+                String usedFormat,
+                String tablename) throws IOException{
         Configuration conf = HBaseConfiguration.create();
 
+        //marcxml should be default
+        reader = new MultiFormatReader(usedFormat);
 
         helper = HBaseHelper.getHelper(conf);
-        if (!helper.existsTable("swissbib")) {
-            helper.createTable("swissbib", "prop");
+        if (!helper.existsTable(tablename)) {
+            helper.createTable(tablename, "prop");
         }
 
 
         collector = new ComplexPutWriter();
-        final Metamorph metamorph = new Metamorph("mapping/ingest.marc21.xml");
+        //"mapping/ingest.marc21.xml" should be the default, not implemented by now
+        final Metamorph metamorph = new Metamorph(morpdefinition);
 
         //metamorph.setErrorHandler(this);
         reader.setReceiver(metamorph);
@@ -45,7 +70,7 @@ public class MorphFacade {
         collector.setCollection(new ArrayList<Put>());
         collector.reset();
 
-        table = helper.getConnection().getTable(TableName.valueOf("swissbib")); // co GetExample-2-NewTable Instantiate a new table reference.
+        table = helper.getConnection().getTable(TableName.valueOf(tablename)); // co GetExample-2-NewTable Instantiate a new table reference.
 
 
 

@@ -1,0 +1,9 @@
+
+
+Starten des Consumers mit Schreiben in HBase Datenbank
+mvn clean install package assembly:assembly
+java -cp target/metafacture-cluster-0.0.0-SNAPSHOT-jar-with-dependencies.jar:/home/swissbib/environment/tools/dataingestion/kafka/libs/*:$HADOOP_CLASSPATH:. org.culturegraph.mf.cluster.kafka.ConsumerDriverWithWakeUp  localhost:9092 swissbib.oai OAI
+
+
+
+java -cp target/metafacture-cluster-0.0.0-SNAPSHOT-jar-with-dependencies.jar:/home/swissbib/environment/tools/dataingestion/kafka/libs/*:. org.culturegraph.mf.cluster.kafka.ConsumerDriverWithWakeUp  localhost:9092 swissbib.oai OAI
