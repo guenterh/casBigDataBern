@@ -5,6 +5,7 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.culturegraph.mf.cluster.sink.ComplexPutWriter;
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.reader.MultiFormatReader;
@@ -79,6 +80,8 @@ public class MorphFacade {
     void transformRecord(String record) {
 
         reader.read(record);
+        //now put the whole record into the row
+        collector.getCurrentPut().addColumn(Bytes.toBytes("prop"),Bytes.toBytes("raw"),Bytes.toBytes(record));;
     }
 
     void writeRecords() {
